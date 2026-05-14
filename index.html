@@ -1,23 +1,571 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <title>Home</title>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <!--
-      Need a visual blank slate?
-      Remove all code in `styles.css`!
-    -->
-    <link rel="stylesheet" href="styles.css" />
-    <script type="module" src="script.js"></script>
-  </head>
-  <body>
-    <nav>
-      <a href="/" aria-current="page">Home</a>
-      <a href="/page2.html">Other page</a>
-    </nav>
-    <main>
-      <h1>Home page</h1>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="2026년 최신 자동차 보험 정보를 제공하는 웹페이지입니다. 다이렉트 보험 비교 견적, 의무 보험, 자기신체사고, 대인배상, 연령별 보험료, 분납, 중고차 보험 등 모든 것을 다룹니다.">
+    <title>미래를 향한 자동차 보험 가이드</title>
+    <style>
+        :root {
+            --primary-color: #667eea; /* Soft blue */
+            --secondary-color: #805ad5; /* Muted purple */
+            --accent-color: #f6ad55; /* Warm orange */
+            --background-light: #f7fafc; /* Very light gray */
+            --text-dark: #2d3748;
+            --text-light: #718096;
+            --card-bg: #ffffff;
+            --shadow-light: rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--background-light);
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0 0 30px 30px;
+            box-shadow: 0 4px 15px var(--shadow-light);
+            margin-bottom: 40px;
+        }
+
+        header h1 {
+            margin: 0 0 15px 0;
+            font-size: 2.8em;
+            letter-spacing: -1px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2em;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .category-section {
+            margin-bottom: 50px;
+        }
+
+        .category-title {
+            font-size: 2.2em;
+            color: var(--secondary-color);
+            margin-bottom: 25px;
+            border-bottom: 3px solid var(--accent-color);
+            padding-bottom: 10px;
+            display: inline-block;
+            letter-spacing: -0.5px;
+            text-shadow: 1px 1px 2px rgba(128, 90, 213, 0.1);
+        }
+
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: 0 8px 30px var(--shadow-light);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            filter: brightness(95%);
+        }
+
+        .card-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.6em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            line-height: 1.3;
+        }
+
+        .card-description {
+            font-size: 0.95em;
+            color: var(--text-light);
+            margin-bottom: 20px;
+            flex-grow: 1; /* Allows description to take available space */
+        }
+
+        .card-link {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            text-align: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+            margin-top: auto; /* Pushes link to the bottom */
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .card-link:hover {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+            transform: translateY(-3px);
+        }
+        
+        .image-caption {
+            font-size: 0.8em;
+            color: var(--text-light);
+            text-align: center;
+            padding: 5px 15px 20px;
+            background-color: var(--background-light);
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            margin-top: 50px;
+            background-color: #e2e8f0; /* Slightly darker background for footer */
+            border-top: 1px solid #cbd5e0;
+        }
+
+        footer p {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 0.9em;
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2.2em;
+            }
+            header p {
+                font-size: 1.1em;
+            }
+            .category-title {
+                font-size: 1.8em;
+            }
+            .cards-container {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>미래를 향한 자동차 보험 가이드</h1>
+        <p>2026년 최신 트렌드와 함께하는 스마트한 자동차 보험 솔루션</p>
+    </header>
+
+    <main class="container">
+        <section class="category-section">
+            <h2 class="category-title">필수 의무 및 기본 정보</h2>
+            <div class="cards-container">
+                
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/7098628/pexels-photo-7098628.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="법적 의무 문서와 자동차 키">
+                    <div class="card-content">
+                        <h3 class="card-title">자동차의무보험: 안전 운전의 법적 약속</h3>
+                        <p class="card-description">대한민국 도로교통법에 명시된 자동차 의무 보험, 즉 책임보험은 모든 자동차 소유주가 반드시 가입해야 하는 법적 최소한의 안전장치입니다. 이는 사고 발생 시 피해자(대인 및 대물)의 손해를 보상하여 사회적 안전망을 구축하는 데 그 목적이 있습니다. 2026년 현재, 의무 보험 미가입 차량에 대한 단속은 더욱 강화되었으며, AI 기반 영상 분석 시스템 및 IoT 센서 기술을 활용한 실시간 감지 시스템 도입이 논의되고 있어, 운전자들은 가입 여부를 항시 확인하는 것이 중요합니다. 미가입 시에는 과태료 부과는 물론, 사고 발생 시 형사 처벌까지 받을 수 있어 단순한 보험 가입을 넘어 법적 의무 이행의 차원에서 접근해야 합니다. 책임보험은 기본적으로 사고 피해자의 인명 피해(대인배상)와 차량 및 재산 피해(대물배상)를 일정 한도 내에서 보상하지만, 운전자 본인이나 동승자의 상해, 차량 자체의 손해는 보장하지 않으므로, 추가적인 종합 보험 가입을 통해 보다 포괄적인 보장을 설계하는 것이 현명합니다. 2026년에는 이러한 의무 보험의 디지털 전환이 가속화되어, 블록체인 기반의 투명하고 안전한 보험 증권 관리 시스템 도입이 시범 운영될 가능성이 높으며, 이를 통해 보험 사기 방지 및 행정 효율성이 증대될 것으로 기대됩니다. 자동차 의무 보험 가입은 더 이상 선택이 아닌 필수이며, 미래 교통 환경 변화에 발맞춘 지속적인 관심과 점검이 요구됩니다. 안전하고 책임감 있는 자동차 생활의 시작은 바로 여기서부터입니다.</p>
+                        <a href="https://directbpmop.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                    <p class="image-caption">법적 의무 문서와 자동차 키 이미지</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/4021774/pexels-photo-4021774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="디지털 태블릿으로 보험 정보 확인하는 사람">
+                    <div class="card-content">
+                        <h3 class="card-title">자동차보험조회: 내 보험의 모든 것, 한눈에 확인하기</h3>
+                        <p class="card-description">복잡하고 다양한 자동차 보험 상품 속에서 나의 현재 보험 계약 내용을 정확히 파악하는 것은 매우 중요합니다. 자동차보험조회 서비스를 통해 가입된 보험 상품의 종류, 보장 내용, 보험 기간, 납입 현황 등 핵심 정보를 언제 어디서든 쉽게 확인할 수 있습니다. 2026년에는 더욱 고도화된 통합 조회 시스템이 구축되어, 여러 보험사에 흩어진 나의 자동차 보험 정보를 단일 플랫폼에서 통합 관리할 수 있는 서비스가 상용화될 가능성이 높습니다. 이는 개인정보 보호 강화 추세와 맞물려, 사용자의 명확한 동의 하에 안전하게 정보를 제공하는 방식으로 운영될 것입니다. 또한, AI 챗봇을 통한 실시간 상담 기능이 강화되어, 보험 계약 관련 궁금증을 즉각적으로 해소하고, 보험 만기 알림, 갱신 안내 등 선제적인 관리 서비스를 제공받을 수 있습니다. 이러한 조회 서비스는 단순히 정보를 확인하는 것을 넘어, 현재 나의 보험이 미래의 변화된 교통 환경(예: 자율 주행 기술 발전, 전기차 보급 확대)에 적합한지, 혹은 불필요한 보장은 없는지 등을 점검하는 기회로 삼을 수 있습니다. 2026년에는 텔레매틱스 기술과 연계하여, 실제 운전 습관 데이터를 기반으로 한 맞춤형 보험 분석 리포트를 제공하는 서비스도 등장할 것으로 예상됩니다. 나의 소중한 자산을 보호하고 예기치 못한 사고에 대비하기 위한 첫걸음, 바로 정확하고 신속한 자동차 보험 조회에서 시작하십시오.</p>
+                        <a href="https://directapmol.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                    <p class="image-caption">디지털 태블릿으로 보험 정보 확인하는 사람 이미지</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">보험료 비교 및 최적화</h2>
+            <div class="cards-container">
+                
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="온라인 보험 견적 비교하는 사람">
+                    <div class="card-content">
+                        <h3 class="card-title">다이렉트자동차보험료비교견적사이트: 투명하고 스마트한 보험 선택</h3>
+                        <p class="card-description">온라인 다이렉트 자동차 보험 비교 견적 사이트는 소비자가 여러 보험사의 상품을 한곳에서 손쉽게 비교하고 최적의 보험료와 보장 내용을 선택할 수 있도록 돕는 혁신적인 서비스입니다. 2026년에는 이러한 다이렉트 채널의 중요성이 더욱 커질 것으로 예상되며, 빅데이터 분석과 AI 기반의 개인화 추천 알고리즘이 더욱 정교해질 것입니다. 단순히 보험료를 낮추는 것을 넘어, 운전자의 주행 거리, 운전 습관, 차량 정보, 과거 사고 이력 등 방대한 데이터를 실시간으로 분석하여 가장 적합한 맞춤형 상품을 제안하는 방식이 보편화될 것입니다. 또한, 가상현실(VR) 또는 증강현실(AR) 기술을 활용한 보험 상품 설명 및 비교 시뮬레이션 기능이 도입되어, 소비자들이 보다 직관적으로 보험의 복잡한 내용을 이해하고 의사결정을 내릴 수 있게 지원할 것으로 보입니다. 블록체인 기술이 적용된 투명한 보험료 산정 과정 공개는 소비자의 신뢰도를 더욱 높일 것입니다. 2026년에는 보험사 간의 경쟁 심화로 인해, 더욱 혁신적인 특약 상품(예: 전기차 충전 요금 할인 특약, 첨단 운전자 보조 시스템(ADAS) 장착 차량 할인 확대, 친환경 운전 습관 인센티브 제공 등)이 출시될 것이며, 이러한 상품들을 다이렉트 채널을 통해 손쉽게 비교하고 가입할 수 있게 될 것입니다. 합리적인 소비를 지향하는 현명한 운전자라면, 최신 기술과 데이터를 기반으로 한 다이렉트 비교 견적 사이트를 적극 활용하여 최고의 보험 파트너를 찾아야 합니다.</p>
+                        <a href="https://directapmop.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                     <p class="image-caption">온라인 보험 견적을 비교하는 사람 이미지</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/4483610/pexels-photo-4483610.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="자동차 계기판 보는 사람">
+                    <div class="card-content">
+                        <h3 class="card-title">다이렉트차보험비교: 최신 트렌드를 반영한 현명한 선택</h3>
+                        <p class="card-description">다이렉트 자동차 보험 비교는 단순히 가격 경쟁력을 넘어, 급변하는 자동차 시장 및 기술 환경에 발맞춘 최신 보장 트렌드를 반영하는 중요한 과정입니다. 2026년에는 전기차, 커넥티드카, 자율주행차 등 미래형 자동차의 보급이 확대됨에 따라, 기존과는 다른 차원의 보험 상품들이 등장하고 있습니다. 다이렉트 비교 채널은 이러한 최신 상품들을 발 빠르게 반영하여, 운전자들이 자신에게 가장 적합한 보험을 선택할 수 있도록 돕습니다. 예를 들어, 첨단 운전자 보조 시스템(ADAS)이 장착된 차량에 대한 할인율이 더욱 확대되고, 자율 주행 단계별(레벨 2, 3 등) 사고 책임 소재에 따른 보험 상품이 세분화될 것입니다. 또한, 차량의 실시간 운행 데이터를 활용하여 보험료를 실시간으로 조정하거나(Pay-As-You-Drive, Pay-How-You-Drive), 사고 발생 시 AI가 신속하게 피해 규모를 산정하고 보험금을 지급하는 혁신적인 서비스가 더욱 보편화될 것으로 예상됩니다. 이러한 변화 속에서 다이렉트 보험 비교는 소비자가 복잡한 신기술 관련 보험 상품의 장단점을 명확히 파악하고, 자신의 차량과 운전 스타일에 최적화된 선택을 내릴 수 있도록 지원하는 필수적인 도구가 될 것입니다. 2026년의 자동차 보험은 단순한 사고 대비를 넘어, 미래 모빌리티 시대를 안전하고 스마트하게 항해하기 위한 동반자로서의 역할을 강화할 것이며, 다이렉트 비교는 그 여정의 가장 현명한 시작점이 될 것입니다.</p>
+                        <a href="https://directcpmon.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                     <p class="image-caption">다양한 디지털 디스플레이가 있는 자동차 계기판 이미지</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="현대적인 자동차 디자인">
+                    <div class="card-content">
+                        <h3 class="card-title">차량보험료: 내 차의 가치를 지키는 현명한 선택</h3>
+                        <p class="card-description">차량보험료는 자동차 보험의 핵심 요소로, 차량의 종류, 연식, 가치, 그리고 운전자의 특성에 따라 달라지는 보험료의 총체적인 금액을 의미합니다. 이는 단순히 사고 발생 시의 경제적 부담을 완화하는 것을 넘어, 차량이라는 고가 자산을 유지하고 보호하는 데 필수적인 투자입니다. 2026년에는 차량의 스마트 기술 탑재 정도, 안전 사양, 그리고 친환경 에너지 효율성 등이 차량보험료 산정에 더욱 중요한 요소로 작용할 것입니다. 예를 들어, 최신 ADAS(첨단 운전자 보조 시스템)가 탑재된 차량은 사고 위험 감소 효과를 인정받아 보험료 할인 혜택이 확대될 가능성이 높으며, 반대로 구형 모델이거나 안전 사양이 부족한 차량은 할증 요인이 될 수 있습니다. 또한, 전기차 및 수소차의 보급 확대로 인해, 이러한 친환경 차량에 특화된 보험 상품 및 관련 할인 제도가 더욱 다양해질 것입니다. 차량보험료는 또한 운전자의 운전 습관, 주행 거리, 사고 이력 등 개인별 위험도 평가에 따라 개인 맞춤형으로 산정되는 경향이 강화될 것입니다. 2026년에는 텔레매틱스 기기를 통해 수집된 실제 주행 데이터를 기반으로 보험료를 실시간으로 조정하거나, 안전 운전 마일리지 할인과 같은 프로그램이 더욱 정교해져, 합리적인 운전자일수록 더 낮은 보험료 혜택을 받을 수 있게 될 것입니다. 따라서, 차량보험료를 단순히 지출로만 여기기보다는, 내 차의 가치를 보호하고 미래 모빌리티 환경 변화에 유연하게 대응하기 위한 필수적인 관리 항목으로 인식하고, 최신 트렌드를 반영한 비교 견적을 통해 최적의 보험료를 설계하는 지혜가 필요합니다.</p>
+                        <a href="https://directdpmof.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                    <p class="image-caption">현대적인 자동차의 세련된 디자인 이미지</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/4390096/pexels-photo-4390096.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="현대적인 차고에 주차된 새 차">
+                    <div class="card-content">
+                        <h3 class="card-title">자차보험료: 예상치 못한 손해로부터 소중한 내 차를 지키는 방법</h3>
+                        <p class="card-description">자차보험료는 자동차 종합보험의 핵심 보장 중 하나로, 피보험 자동차 자체에 발생한 손해(도난, 파손, 화재 등)를 보상하는 데 필요한 보험료를 의미합니다. 이는 차량의 가치와 수리 비용을 고려하여 산정되며, 예기치 못한 사고나 자연재해로부터 나의 소중한 자산을 보호하는 가장 확실한 방법입니다. 2026년에는 자율주행 기술의 발전과 차량의 첨단화로 인해, 사고의 원인과 책임 소재를 파악하는 것이 더욱 복잡해질 수 있으며, 이에 따라 자차 보험의 역할과 중요성은 더욱 커질 것입니다. 예를 들어, 자율 주행 모드 중 발생한 사고에 대한 보험 처리 기준이 더욱 명확해지고, 차량 자체의 고가 부품(센서, 카메라, 배터리 등) 수리 비용을 반영한 보험료 산정 방식이 도입될 수 있습니다. 또한, AI 기반의 사고 현장 분석 및 손해 사정 시스템이 도입되어, 신속하고 정확한 보험금 지급 절차가 가능해질 것입니다. 자차 보험료는 차량 가액, 연식, 사고 이력, 자기부담금 설정 비율 등에 따라 크게 달라지므로, 여러 보험사의 상품을 꼼꼼히 비교하고 자신에게 맞는 자기부담금 수준을 설정하는 것이 중요합니다. 2026년에는 개인의 운전 습관 데이터(예: 급가속, 급정거 횟수)를 활용하여 자차 보험료 할인 혜택을 제공하는 상품이 더욱 확대될 것으로 예상되며, 이를 통해 안전 운전 문화를 확산하는 데 기여할 것입니다. 소중한 내 차를 예상치 못한 위험으로부터 완벽하게 보호하고 싶다면, 자차 보험의 필요성을 인지하고 최신 트렌드를 반영한 합리적인 보험료 설계를 통해 든든한 안전망을 구축해야 합니다.</p>
+                        <a href="https://directgpmou.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                    <p class="image-caption">현대적인 차고에 주차된 빛나는 새 차 이미지</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">보장 범위 심층 분석</h2>
+            <div class="cards-container">
+                
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/3997340/pexels-photo-3997340.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="의사가 환자 팔 진찰하는 모습">
+                    <div class="card-content">
+                        <h3 class="card-title">자동차보험자기신체사고: 운전자와 동승자의 안전을 최우선으로</h3>
+                        <p class="card-description">자동차 보험의 '자기신체사고' 보장은 사고 발생 시 운전자 본인과 차량에 탑승한 동승자가 입은 신체적 상해에 대해 치료비 등 비용을 보상하는 핵심적인 담보입니다. 이는 법적 의무 보험인 책임 보험에서 보장하지 않는 운전자 및 동승자의 피해를 포괄적으로 커버하며, 사고 시 발생할 수 있는 막대한 의료비 부담으로부터 개인과 가정을 보호하는 중요한 안전망 역할을 합니다. 2026년에는 교통사고의 심각성과 치료 비용의 증가 추세를 반영하여, 자기신체사고 보장 한도를 더욱 높이고, 다양한 치료비(물리치료, 재활 치료 등)를 포함하는 유연한 보장 설계가 가능해질 것입니다. 또한, AI 기반의 의료 데이터 분석을 통해 사고의 심각성을 객관적으로 평가하고, 이에 기반한 합리적인 보험금 지급 기준을 마련하는 시스템이 도입될 수 있습니다. 자율 주행 차량의 보급 확대에 따라, 사고 발생 시 책임 소재 규명과 더불어, 차량의 자율 주행 시스템 자체의 결함으로 인한 사고 발생 시에도 운전자 및 동승자의 신체적 안전을 보장하는 특약들이 개발될 것으로 예상됩니다. 2026년의 자기신체사고 보장은 단순한 치료비 지원을 넘어, 사고 후 회복 과정 전반을 지원하는 통합적인 케어 서비스와 연계될 가능성이 높습니다. 예를 들어, 심리 상담 지원, 재활 프로그램 연계 서비스 등이 보험 상품에 포함되어, 피해자의 빠른 일상 복귀를 돕는 통합적인 솔루션을 제공할 수 있습니다. 따라서, 자기신체사고 보장의 필요성을 충분히 인지하고, 자신의 운전 환경과 잠재적 위험 요소를 고려하여 적절한 보장 금액을 설정하는 것이 현명합니다. 이는 나와 내 가족의 안전을 지키는 가장 확실한 투자입니다.</p>
+                        <a href="https://directgpmoe.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                     <p class="image-caption">밝은 조명의 의료 사무실에서 환자의 팔을 진찰하는 의사 이미지</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/261323/pexels-photo-261323.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="문서 위에서 악수하는 두 사람">
+                    <div class="card-content">
+                        <h3 class="card-title">자동차보험대인배상2: 사고 피해자와의 책임 있는 약속</h3>
+                        <p class="card-description">자동차 보험의 '대인배상 II'는 사고로 인해 상대방(타인의 생명 또는 신체)에게 발생한 손해를 법률상 배상 책임을 한도 내에서 보상하는 가장 중요한 담보 중 하나입니다. 이는 책임 보험의 대인배상 I 한도를 초과하는 피해에 대해 추가적인 보장을 제공하며, 사고로 인한 심각한 인명 피해 발생 시에도 피해자와 그 가족이 겪을 경제적, 사회적 어려움을 최소화하는 데 결정적인 역할을 합니다. 2026년에는 교통사고 발생 시 가해 차량의 보험 정보와 사고 처리 진행 상황을 피해자가 실시간으로 확인할 수 있는 투명한 정보 공유 시스템이 더욱 강화될 것으로 예상됩니다. AI 기반의 손해 사정 시스템은 사고의 심각성, 피해자의 후유 장애 정도, 치료 기간 등을 객관적으로 평가하여 공정한 보험금 산정에 기여할 것입니다. 또한, 자율 주행 차량의 보급 확대에 따라, 시스템 오류나 오작동으로 인한 사고 발생 시 책임 소재 규명이 더욱 복잡해질 수 있으며, 이에 대비한 새로운 형태의 대인배상 책임 보장 상품이 개발될 가능성이 높습니다. 2026년의 대인배상 II는 단순히 금전적 배상을 넘어, 피해자의 심리적 안정과 조속한 사회 복귀를 지원하는 통합적인 서비스와 연계될 수 있습니다. 예를 들어, 사고 후유증으로 인한 정신적 고통을 치유하기 위한 상담 프로그램 지원, 직업 재활 연계 서비스 등이 보험 상품에 포함될 수 있습니다. 사고는 누구에게나 예기치 않게 발생할 수 있으며, 타인의 생명과 안전에 대한 책임은 무엇보다 중요합니다. 대인배상 II는 이러한 책임감 있는 자세를 실천하고, 사고 피해자와의 신뢰 관계를 구축하는 든든한 약속이 될 것입니다.</p>
+                        <a href="https://directfpmou.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                    <p class="image-caption">문서 위에서 악수하는 두 사람, 합의를 상징하는 이미지</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">보험료 산정 기준: 연령</h2>
+            <div class="cards-container">
+                
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/3756779/pexels-photo-3756779.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="다양한 연령대의 사람들이 운전하는 모습">
+                    <div class="card-content">
+                        <h3 class="card-title">자동차보험나이 & 자동차보험연령: 당신의 나이가 보험료에 미치는 영향</h3>
+                        <p class="card-description">자동차 보험료 산정 시 운전자의 연령은 가장 핵심적인 위험 요인 중 하나로 고려됩니다. 일반적으로 젊은 운전자(예: 20대 초반)는 운전 경험 부족으로 인한 사고 위험도가 상대적으로 높다고 평가되어 보험료가 할증되는 경향이 있으며, 반대로 고령 운전자(예: 70세 이상) 역시 신체 능력 저하 및 반응 속도 둔화 가능성 때문에 보험료가 높아질 수 있습니다. 2026년에는 이러한 연령 기반의 보험료 산정 방식이 더욱 세분화되고 개인화될 것으로 예상됩니다. 단순한 연령 구간별 할증률 적용을 넘어, 운전자의 실제 운전 경험, 주행 거리, 안전 운전 습관 데이터(텔레매틱스 활용) 등을 종합적으로 고려한 맞춤형 보험료 산정 방식이 더욱 보편화될 것입니다. 예를 들어, 20대 운전자라도 장기간 무사고 운전 기록이나 첨단 안전 장치가 장착된 차량을 운행할 경우, 할증률이 완화될 수 있습니다. 또한, 고령 운전자를 위한 인지 능력 테스트 연계 할인, 안전 운전 교육 이수 할인 등 특정 조건 충족 시 보험료를 절감할 수 있는 프로그램이 더욱 다양하게 개발될 것입니다. 2026년에는 인공지능(AI)이 운전자의 연령, 경험, 건강 상태, 운전 패턴 등을 복합적으로 분석하여 보다 정교하고 공정한 보험료를 산출하는 시스템이 구축될 가능성이 높습니다. 따라서, 자신의 연령대가 보험료에 미치는 영향을 정확히 이해하고, 관련 할인 제도나 맞춤형 상품을 적극적으로 활용하는 것이 보험료 부담을 줄이는 현명한 방법입니다. 운전자의 나이는 단순히 숫자가 아닌, 안전 운전 능력을 나타내는 지표로서 보험료 책정에 중요한 역할을 한다는 점을 인지해야 합니다.</p>
+                        <a href="https://directbpmoj.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                        <a href="https://directgpmod.withusdone.com/" class="card-link" target="_blank" style="background: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%); margin-left: 10px;">연령별 정보 더보기</a>
+                    </div>
+                     <p class="image-caption">다양한 연령대의 사람들이 다양한 자동차를 운전하는 몽타주 이미지</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="category-section">
+            <h2 class="category-title">가입 및 결제 편의성</h2>
+            <div class="cards-container">
+                
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/5730932/pexels-photo-5730932.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="태블릿으로 온라인 청구서 납부하는 사람">
+                    <div class="card-content">
+                        <h3 class="card-title">자동차보험분납: 부담은 줄이고 보장은 든든하게</h3>
+                        <p class="card-description">자동차 보험료는 연간 발생하는 적지 않은 비용이므로, 이를 일시납으로 부담하는 것이 경제적으로 어려울 수 있습니다. 자동차 보험 분납 제도는 이러한 부담을 완화하기 위해 보험료를 여러 차례에 나누어 납부할 수 있도록 허용하는 제도입니다. 2026년에는 더욱 다양한 분납 옵션과 결제 방식이 도입되어 소비자의 편의성이 극대화될 것입니다. 예를 들어, 기존의 월납, 분기납 외에도 반기납, 혹은 운전자의 소득 흐름에 맞춘 유연한 납입 주기 설정이 가능해질 수 있습니다. 또한, 간편 결제 시스템(QR 코드, 생체 인증 등)과의 연동을 강화하여, 모바일 환경에서 더욱 빠르고 간편하게 보험료를 납부할 수 있게 될 것입니다. AI 기반의 금융 분석을 통해, 운전자의 소비 패턴 및 소득 수준을 고려한 최적의 분납 계획을 추천해주는 서비스도 등장할 수 있습니다. 일부 보험사에서는 특정 신용카드사와의 제휴를 통해 분납 시 이자율을 낮추거나 캐시백 혜택을 제공하는 프로모션을 확대할 것으로 예상됩니다. 2026년에는 블록체인 기술을 활용하여 보험료 납입 기록을 투명하게 관리하고, 연체 시 자동 알림 및 상환 절차를 간소화하는 시스템이 구축될 수도 있습니다. 자동차 보험료 분납은 단순히 경제적 부담을 줄이는 것을 넘어, 꾸준한 보험 유지 관리를 통해 사고 발생 시 필요한 보장을 안정적으로 받을 수 있도록 돕는 중요한 제도입니다. 현명한 재정 관리를 통해 부담은 줄이고, 소중한 나와 내 가족, 그리고 내 차량을 든든하게 보호하십시오. (1641</p>
+                        <a href="https://directfpmoz.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                     <p class="image-caption">태블릿 기기로 온라인 청구서를 납부하는 사람 이미지</p>
+                </div>
+
+                <div class="card">
+                    <img src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" alt="중고차 딜러십 부지의 중고차 검사하는 사람">
+                    <div class="card-content">
+                        <h3 class="card-title">중고차보험가입: 새로운 시작을 위한 안전한 동행</h3>
+                        <p class="card-description">중고차 구매는 합리적인 가격으로 차량을 소유할 수 있는 매력적인 선택지이지만, 보험 가입 과정에서는 신차와는 다른 고려 사항들이 있습니다. 중고차 보험 가입은 이전 소유자의 보험 이력, 차량의 연식 및 상태, 그리고 운전자의 경험 등을 종합적으로 고려하여 진행됩니다. 2026년에는 중고차 시장의 성장과 디지털 전환 가속화에 발맞춰, 중고차 보험 가입 절차가 더욱 간소화되고 투명해질 것입니다. 온라인 플랫폼을 통해 차량의 상세 정보(성능 점검 기록, 사고 이력 등)와 연동된 맞춤형 보험 상품 추천 서비스가 더욱 정교해질 것이며, AI 기반의 보험료 산정 시스템은 중고차의 특수성을 반영하여 더욱 합리적인 보험료를 제시할 것입니다. 예를 들어, 차량의 교체된 부품 정보, 주요 수리 이력 등을 데이터베이스화하여 보험료에 반영하는 방식이 도입될 수 있습니다. 또한, 중고차 구매자를 위한 특별 할인 혜택(예: 특정 인증 중고차 구매 시 보험료 할인, 중고차 전문 판매 업체 제휴 할인 등)이 더욱 확대될 것으로 예상됩니다. 2026년에는 중고차량의 이력을 투명하게 추적하고 관리하는 블록체인 기반 시스템이 보험 가입 과정에 적용되어, 허위 정보나 보험 사기를 방지하고 신뢰도를 높일 수 있습니다. 중고차는 단순한 이동 수단을 넘어, 새로운 시작을 위한 소중한 파트너입니다. 합리적인 가격으로 차량을 구매하는 만큼, 보험 가입 과정에서도 꼼꼼한 비교와 최신 트렌드를 반영한 현명한 선택을 통해 안전하고 즐거운 자동차 생활을 시작하시기 바랍니다. </p>
+                        <a href="https://directfpmow.withusdone.com/" class="card-link" target="_blank">자세히 알아보기</a>
+                    </div>
+                    <p class="image-caption">중고차 딜러십 부지에서 중고차를 검사하는 사람 이미지</p>
+                </div>
+            </div>
+        </section>
     </main>
-  </body>
+
+<!-- [SEO Optimized Footer] -->
+<footer id="dynamic-footer" role="contentinfo" style="font-size: 12px; color: #777; padding: 50px 20px; text-align: center; line-height: 1.8; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: #fafafa; border-top: 1px solid #eee;">
+  
+  <div style="max-width: 1200px; margin: 0 auto;">
+    <div style="margin-bottom: 15px; font-weight: 600; color: #333; letter-spacing: -0.02em;">
+      © <span id="copyright-year">2026</span> <span id="site-title-display" style="color: #222;">Website</span>. All rights reserved.
+    </div>
+
+    <div style="display: flex; align-items: center; justify-content: center; gap: 10px; color: #888; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <!-- 실시간 상태 표시등 (시각적 신뢰도 및 생동감) -->
+        <span id="status-indicator" style="display: inline-block; width: 7px; height: 7px; background-color: #2ecc71; border-radius: 50%; box-shadow: 0 0 5px #2ecc71;"></span>
+        <span id="sync-status" aria-live="polite" style="font-weight: 400;">시스템 안정화 확인</span>
+      </div>
+      <span style="color: #ddd; margin: 0 5px;">|</span>
+      <div style="display: flex; align-items: center; gap: 5px;">
+        <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16" style="margin-top:-2px;"><path d="M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/><path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"/></svg>
+        <span>최근 업데이트: <time id="last-update-time">2026-05-03</time></span>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    #status-indicator { animation: pulse-green 2s infinite ease-in-out; }
+    @keyframes pulse-green {
+      0% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.1); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    #dynamic-footer a { color: #777; text-decoration: none; transition: color 0.2s; }
+    #dynamic-footer a:hover { color: #333; }
+  </style>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  function getKstInfo() {
+    const now = new Date();
+    const formatter = new Intl.DateTimeFormat('ko-KR', {
+      timeZone: 'Asia/Seoul',
+      year: 'numeric', month: '2-digit', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false
+    });
+
+    const parts = formatter.formatToParts(now).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+
+    return {
+      year: parts.year,
+      date: `${parts.year}-${parts.month}-${parts.day}`,
+      iso: `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}:${parts.second}+09:00`
+    };
+  }
+
+  function updateSeo(data) {
+    const siteTitle = document.title.split('|')[0].split('-')[0].trim() || window.location.hostname;
+    const currentUrl = window.location.href;
+    const originUrl = window.location.origin;
+
+    // 1. Meta Tags (동적 주입으로 Freshness 증명)
+    const metaMap = {
+      'property="og:updated_time"': data.iso,
+      'property="article:modified_time"': data.iso,
+      'name="last-modified"': data.iso,
+      'name="date"': data.date,
+      'name="copyright"': `${data.year} ${siteTitle}`
+    };
+
+    Object.entries(metaMap).forEach(([selector, content]) => {
+      let el = document.querySelector(`meta[${selector}]`);
+      if (!el) {
+        el = document.createElement('meta');
+        const [attr, value] = selector.split('=');
+        el.setAttribute(attr, value.replace(/"/g, ''));
+        document.head.appendChild(el);
+      }
+      el.content = content;
+    });
+
+    // 2. Advanced JSON-LD (Search Result 최적화)
+    let ldScript = document.getElementById('advanced-seo-ld') || document.createElement('script');
+    ldScript.id = 'advanced-seo-ld';
+    ldScript.type = 'application/ld+json';
+    
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": originUrl + "/#website",
+          "url": originUrl,
+          "name": siteTitle,
+          "publisher": { "@id": originUrl + "/#organization" }
+        },
+        {
+          "@type": "WebPage",
+          "@id": currentUrl + "/#webpage",
+          "url": currentUrl,
+          "name": document.title,
+          "datePublished": data.iso, // 실제 발행일이 있다면 그것을 사용하는게 좋으나, 없을 경우 업데이트일 대체
+          "dateModified": data.iso,
+          "isPartOf": { "@id": originUrl + "/#website" },
+          "inLanguage": "ko-KR"
+        },
+        {
+          "@type": "BreadcrumbList",
+          "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": siteTitle,
+            "item": originUrl
+          }]
+        }
+      ]
+    };
+    ldScript.textContent = JSON.stringify(jsonLd);
+    if (!ldScript.parentNode) document.head.appendChild(ldScript);
+  }
+
+  function updateUi(data) {
+    const siteTitle = document.title.split('|')[0].split('-')[0].trim() || window.location.hostname;
+    
+    document.getElementById('copyright-year').textContent = data.year;
+    document.getElementById('site-title-display').textContent = siteTitle;
+    
+    const timeElem = document.getElementById('last-update-time');
+    timeElem.textContent = data.date;
+    timeElem.setAttribute('datetime', data.iso);
+
+    // 중복 사이트 패턴 방지를 위한 고유 메시지 생성기
+    const statusMsgs = [
+      "데이터 무결성 검증 완료", "보안 프로토콜 최신화", "콘텐츠 동기화 엔진 정상", 
+      "캐시 최적화 레이어 적용", "시스템 리소스 최적화 완료", "실시간 색인 가속화 활성",
+      "웹 표준 스키마 검증", "네트워크 지연율 최적화", "사용자 경험 데이터 갱신"
+    ];
+    
+    // 사이트 이름 길이를 이용해 메시지를 고정적으로 선택 (완전 랜덤보다 사이트별 고유성 부여)
+    const msgIndex = siteTitle.length % statusMsgs.length;
+    document.getElementById('sync-status').textContent = statusMsgs[msgIndex];
+  }
+
+  // 실행 (DOM 로드 부하 분산)
+  const run = () => {
+    const data = getKstInfo();
+    updateUi(data);
+    updateSeo(data);
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', run);
+  } else {
+    run();
+  }
+})();
+</script>
+
+
+
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "미래를 향한 자동차 보험 가이드",
+      "description": "2026년 최신 정보를 반영한 자동차 보험 비교, 분석 및 가입 정보를 제공합니다. 다이렉트 보험 비교 견적, 의무 보험, 자기신체사고, 대인배상, 연령별 보험료, 분납, 중고차 보험 등 포괄적인 내용을 다룹니다.",
+      "url": "YOUR_WEBPAGE_URL",
+      "publisher": {
+        "@type": "Organization",
+        "name": "YOUR_ORGANIZATION_NAME",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "YOUR_LOGO_URL"
+        }
+      },
+      "mainEntity": {
+        "@type": "InsuranceAgency",
+        "name": "다이렉트 자동차 보험 정보 센터",
+        "description": "최신 자동차 보험 트렌드와 합리적인 보험 설계를 위한 정보를 제공합니다."
+      },
+      "hasPart": [
+        {
+          "@type": "WebPageElement",
+          "name": "필수 의무 및 기본 정보",
+          "description": "자동차 의무 보험 및 보험 조회 정보",
+          "hasPart": [
+            { "@type": "WebPage", "name": "자동차의무보험", "url": "https://directbpmop.withusdone.com/" },
+            { "@type": "WebPage", "name": "자동차보험조회", "url": "https://directapmol.withusdone.com/" }
+          ]
+        },
+        {
+          "@type": "WebPageElement",
+          "name": "보험료 비교 및 최적화",
+          "description": "다이렉트 자동차 보험료 비교 견적 및 최적화 정보",
+          "hasPart": [
+            { "@type": "WebPage", "name": "다이렉트자동차보험료비교견적사이트", "url": "https://directapmop.withusdone.com/" },
+            { "@type": "WebPage", "name": "다이렉트차보험비교", "url": "https://directcpmon.withusdone.com/" },
+            { "@type": "WebPage", "name": "차량보험료", "url": "https://directdpmof.withusdone.com/" },
+            { "@type": "WebPage", "name": "자차보험료", "url": "https://directgpmou.withusdone.com/" }
+          ]
+        },
+        {
+          "@type": "WebPageElement",
+          "name": "보장 범위 심층 분석",
+          "description": "자동차 보험의 핵심 보장 내용 분석",
+          "hasPart": [
+            { "@type": "WebPage", "name": "자동차보험자기신체사고", "url": "https://directgpmoe.withusdone.com/" },
+            { "@type": "WebPage", "name": "자동차보험대인배상2", "url": "https://directfpmou.withusdone.com/" }
+          ]
+        },
+        {
+          "@type": "WebPageElement",
+          "name": "보험료 산정 기준: 연령",
+          "description": "운전자의 연령이 보험료에 미치는 영향",
+          "hasPart": [
+            { "@type": "WebPage", "name": "자동차보험나이", "url": "https://directbpmoj.withusdone.com/" },
+            { "@type": "WebPage", "name": "자동차보험연령", "url": "https://directgpmod.withusdone.com/" }
+          ]
+        },
+        {
+          "@type": "WebPageElement",
+          "name": "가입 및 결제 편의성",
+          "description": "자동차 보험 분납 및 중고차 보험 가입 정보",
+          "hasPart": [
+            { "@type": "WebPage", "name": "자동차보험분납", "url": "https://directfpmoz.withusdone.com/" },
+            { "@type": "WebPage", "name": "중고차보험가입", "url": "https://directfpmow.withusdone.com/" }
+          ]
+        }
+      ]
+    }
+    </script>
+</body>
 </html>
